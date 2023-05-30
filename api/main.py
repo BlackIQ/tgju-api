@@ -1,4 +1,4 @@
-from flask import Flask,  jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from .core.core import gold, currency
@@ -7,18 +7,17 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/api/gold', methods=['GET'])
-def gold_price():
-    g = gold()
+@app.route('/api/price/<of>', methods=['GET'])
+def get_price(of):
+    assert of == request.view_args['of']
 
-    return jsonify(g), 200
-
-
-@app.route('/api/currency', methods=['GET'])
-def currency_price():
-    c = currency()
-
-    return jsonify(c), 200
+    match of:
+        case 'gold':
+            return jsonify(gold()), 200
+        case 'currency':
+            return jsonify(currency()), 200
+        case _:
+            return jsonify({'message': 'Invalid'}), 404
 
 
 @app.errorhandler(404)
