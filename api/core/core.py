@@ -3,17 +3,17 @@ from bs4 import BeautifulSoup
 
 
 def gold():
-    url = "https://www.tgju.org/gold-chart"
+    gold_url = "https://www.tgju.org/gold-chart"
 
-    r = requests.get(url)
+    g_r = requests.get(gold_url)
 
-    soup = BeautifulSoup(r.content, 'html.parser')
+    g_soup = BeautifulSoup(g_r.content, 'html.parser')
 
-    tables = soup.find_all('table', class_='market-table')
+    g_tables = g_soup.find_all('table', class_='market-table')
 
-    out = []
+    g_out = []
 
-    for table in tables:
+    for table in g_tables:
         body = table.find('tbody')
         rows = body.find_all('tr')
 
@@ -27,6 +27,30 @@ def gold():
 
             prices.append({'title': item_title, 'price': item_price})
 
-        out.append({'title': title, 'prices': prices})
+        g_out.append({'title': title, 'prices': prices})
 
-    return out
+    return g_out
+
+
+def currency():
+    currency_url = "https://www.tgju.org/currency"
+
+    c_r = requests.get(currency_url)
+
+    c_soup = BeautifulSoup(c_r.content, 'html.parser')
+
+    c_tables = c_soup.find_all('table', class_='market-table')
+
+    c_out = []
+
+    for table in c_tables:
+        body = table.find('tbody')
+        rows = body.find_all('tr')
+
+        for row in rows:
+            title = row.find('th').text
+            price = row.find('td', class_='nf').text
+
+            c_out.append({'title': title, 'price': price})
+
+    return c_out
