@@ -1,4 +1,6 @@
 from api.main import app
 
+from api.config.config import env
+
 if __name__ == "__main__":
-    app.run(port=9090, debug=True)
+    app.run(port=env("PORT"), debug=True)

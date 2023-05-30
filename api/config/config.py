@@ -5,4 +5,4 @@ import os
 load_dotenv()
 
 # Access environment variables
-env = os.environ
+env = os.getenv
