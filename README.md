@@ -16,7 +16,7 @@ So, I used notebooks as I said to scrap data. Now used it in an API.
 
 Here are routes.
 
-#### /price/:of
+#### `/price/:of`
 
 In `/price` route we have a param named `of`. This item can be one of items below:
 
@@ -30,3 +30,8 @@ If `of` is not in the list, you will get 404 errror with this data:
   "message": "Invalid"
 }
 ```
+
+Example:
+
+- [https://tgju.amirhossein.info/api/price/gold](https://tgju.amirhossein.info/api/price/gold) -> Gold
+- [https://tgju.amirhossein.info/api/price/currency](https://tgju.amirhossein.info/api/price/currency) -> Currency
