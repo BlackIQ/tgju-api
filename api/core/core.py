@@ -24,8 +24,11 @@ def gold():
         for item in rows:
             item_title = item.find('th').text
             item_price = item.find('td', class_='nf').text
+            item_key = item.find_all(
+                'td')[-1].find('a').get('href').split('/')[-1]
 
-            prices.append({'title': item_title, 'price': item_price})
+            prices.append(
+                {'title': item_title, 'price': item_price, 'key': item_key})
 
         g_out.append({'title': title, 'prices': prices})
 
@@ -50,7 +53,8 @@ def currency():
         for row in rows:
             title = row.find('th').text
             price = row.find('td', class_='nf').text
+            key = row.find_all('td')[-1].find('a').get('href').split('/')[-1]
 
-            c_out.append({'title': title, 'price': price})
+            c_out.append({'title': title, 'price': price, 'key': key})
 
     return c_out
