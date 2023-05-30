@@ -138,3 +138,6 @@ ui-tests/.pnp.*
 
 # Env
 .env
+
+# Log
+*.log

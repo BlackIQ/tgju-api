@@ -1,7 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+import logging
+
+
 from .core.core import gold, currency
+
+logging.basicConfig(filename='record.log')
+
 
 app = Flask(__name__)
 CORS(app)
@@ -23,3 +29,8 @@ def get_price(of):
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({'message': 'Route not found'}), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({'message': 'Server internal error'}), 500
