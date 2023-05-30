@@ -2,6 +2,10 @@
 
 Just a simple project to scrap [tgju.org](https://www.tgju.org). Here I just parse data and return them.
 
+## Docs
+
+You can use **Swagger** to test. [Open Swagger](https://app.swaggerhub.com/apis-docs/AMIRHOSSEINMOHAMMADI/TGJU/1.0.0).
+
 ## Notebook
 
 The notebook is just for testing.
