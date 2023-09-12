@@ -1,11 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+}
 
 def gold():
     gold_url = "https://www.tgju.org/gold-chart"
 
-    g_r = requests.get(gold_url)
+    g_r = requests.get(gold_url, headers=headers)
 
     g_soup = BeautifulSoup(g_r.content, 'html.parser')
 
@@ -38,7 +41,7 @@ def gold():
 def currency():
     currency_url = "https://www.tgju.org/currency"
 
-    c_r = requests.get(currency_url)
+    c_r = requests.get(currency_url, headers=headers)
 
     c_soup = BeautifulSoup(c_r.content, 'html.parser')
 
