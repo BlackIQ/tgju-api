@@ -3,7 +3,7 @@ version: "3.9"
 services:
   api:
     build:
-      context: api
+      context: .
       dockerfile: Dockerfile
     container_name: tgju-api
     restart: always
