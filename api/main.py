@@ -3,8 +3,7 @@ from flask_cors import CORS
 
 import logging
 
-
-from .core.core import gold, currency
+from api.core.core import gold, currency
 
 logging.basicConfig(filename='record.log')
 
