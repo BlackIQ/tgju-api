@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    container_name: tgju-api
+    restart: always
+    ports:
+      - "8877:8000"
+    networks:
+      - application-network
+
+networks:
+  application-network:
+    external: true
