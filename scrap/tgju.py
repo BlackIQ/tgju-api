@@ -47,6 +47,18 @@ def get_price_status(row) -> str | None:
     return None
 
 
+def get_price_range(row) -> tuple[str | None, str | None]:
+    cells = row.find_all("td")
+
+    if len(cells) < 4:
+        return None, None
+
+    low_price = cells[2].get_text(strip=True)
+    high_price = cells[3].get_text(strip=True)
+
+    return low_price, high_price
+
+
 # Currency scrapper
 async def get_currency_prices() -> list[PriceItem]:
     soup = await _get_soup("https://www.tgju.org/currency")
@@ -58,6 +70,7 @@ async def get_currency_prices() -> list[PriceItem]:
             title = row.find("th").get_text(strip=True)
 
             price = row.find("td", class_="nf").get_text(strip=True)
+            low_price, high_price = get_price_range(row)
 
             href = row.find_all("td")[-1].a["href"]
 
@@ -67,6 +80,8 @@ async def get_currency_prices() -> list[PriceItem]:
                     price=price,
                     key=href.split("/")[-1],
                     status=get_price_status(row),
+                    low_price=low_price,
+                    high_price=high_price,
                 )
             )
 
@@ -89,6 +104,7 @@ async def get_gold_prices() -> list[GoldCategory]:
             title = row.find("th").get_text(strip=True)
 
             price = row.find("td", class_="nf").get_text(strip=True)
+            low_price, high_price = get_price_range(row)
 
             href = row.find_all("td")[-1].a["href"]
 
@@ -98,6 +114,8 @@ async def get_gold_prices() -> list[GoldCategory]:
                     price=price,
                     key=href.split("/")[-1],
                     status=get_price_status(row),
+                    low_price=low_price,
+                    high_price=high_price,
                 )
             )
 
