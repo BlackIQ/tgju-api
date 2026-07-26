@@ -6,6 +6,7 @@ class PriceItem(BaseModel):
     title: str
     price: str
     key: str
+    status: str | None = None
 
 
 # Gold Schema

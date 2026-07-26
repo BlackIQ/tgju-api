@@ -32,6 +32,21 @@ async def _get_soup(url: str) -> BeautifulSoup:
     return BeautifulSoup(response.text, "html.parser")
 
 
+def get_price_status(row) -> str | None:
+    status = row.select_one("td.nf span")
+
+    if not status:
+        return None
+
+    classes = status.get("class", [])
+
+    for item in classes:
+        if item in ["low", "high"]:
+            return item
+
+    return None
+
+
 # Currency scrapper
 async def get_currency_prices() -> list[PriceItem]:
     soup = await _get_soup("https://www.tgju.org/currency")
@@ -40,7 +55,6 @@ async def get_currency_prices() -> list[PriceItem]:
 
     for table in soup.select("table.market-table"):
         for row in table.select("tbody > tr"):
-
             title = row.find("th").get_text(strip=True)
 
             price = row.find("td", class_="nf").get_text(strip=True)
@@ -52,6 +66,7 @@ async def get_currency_prices() -> list[PriceItem]:
                     title=title,
                     price=price,
                     key=href.split("/")[-1],
+                    status=get_price_status(row),
                 )
             )
 
@@ -71,7 +86,6 @@ async def get_gold_prices() -> list[GoldCategory]:
         prices: list[PriceItem] = []
 
         for row in table.select("tbody > tr"):
-
             title = row.find("th").get_text(strip=True)
 
             price = row.find("td", class_="nf").get_text(strip=True)
@@ -83,6 +97,7 @@ async def get_gold_prices() -> list[GoldCategory]:
                     title=title,
                     price=price,
                     key=href.split("/")[-1],
+                    status=get_price_status(row),
                 )
             )
 
