@@ -4,7 +4,7 @@ Just a simple project to scrap [tgju.org](https://www.tgju.org). Here I just par
 
 ## Docs
 
-You can use **Swagger** to test. [Open Swagger](https://app.swaggerhub.com/apis-docs/AMIRHOSSEINMOHAMMADI/TGJU/1.0.0).
+You can use **Swagger** to test. [Open Swagger](https://tgju.amirhossein.info/redoc).
 
 ## Notebook
 
