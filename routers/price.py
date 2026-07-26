@@ -23,17 +23,50 @@ async def currency():
 
     ```json
     [
-        { "title": "دلار", "price": "1,868,850", "key": "price_dollar_rl" },
-        { "title": "یورو", "price": "2,129,800", "key": "price_eur" },
-        { "title": "درهم امارات", "price": "510,900", "key": "price_aed" },
-        { "title": "پوند انگلیس", "price": "2,488,600", "key": "price_gbp" },
-        { "title": "لیر ترکیه", "price": "39,500", "key": "price_try" },
-        { "title": "یوان چین", "price": "275,900", "key": "price_cny" },
-        { "title": "روبل روسیه", "price": "23,920", "key": "price_rub" }
+        {
+            "title": "دلار",
+            "price": "1,872,000",
+            "key": "price_dollar_rl",
+            "status": "low",
+            "low_price": "1,868,800",
+            "high_price": "1,892,000"
+        },
+        {
+            "title": "یورو",
+            "price": "2,133,000",
+            "key": "price_eur",
+            "status": "low",
+            "low_price": "2,129,600",
+            "high_price": "2,156,300"
+        },
+        {
+            "title": "درهم امارات",
+            "price": "511,680",
+            "key": "price_aed",
+            "status": "low",
+            "low_price": "510,860",
+            "high_price": "520,240"
+        },
+        {
+            "title": "دینار کویت",
+            "price": "6,051,300",
+            "key": "price_kwd",
+            "status": "low",
+            "low_price": "6,024,800",
+            "high_price": "6,097,600"
+        },
+        {
+            "title": "روبل روسیه",
+            "price": "23,960",
+            "key": "price_rub",
+            "status": "low",
+            "low_price": "23,920",
+            "high_price": "24,220"
+        }
     ]
     ```
     """
-    
+
     return await get_currency_prices()
 
 
@@ -51,27 +84,38 @@ async def gold():
             "prices": [
                 {
                     "title": "طلای 18 عیار / 750",
-                    "price": "180,421,000",
-                    "key": "geram18"
+                    "price": "180,523,000",
+                    "key": "geram18",
+                    "status": "low",
+                    "low_price": "178,690,000",
+                    "high_price": "182,568,000"
                 },
                 {
                     "title": "طلای 18 عیار / 740",
-                    "price": "178,016,000",
-                    "key": "gold_740k"
+                    "price": "178,116,000",
+                    "key": "gold_740k",
+                    "status": "low",
+                    "low_price": "176,308,000",
+                    "high_price": "180,134,000"
                 },
                 {
                     "title": "طلای ۲۴ عیار",
-                    "price": "240,560,000",
-                    "key": "geram24"
+                    "price": "240,695,000",
+                    "key": "geram24",
+                    "status": "low",
+                    "low_price": "238,251,000",
+                    "high_price": "243,422,000"
                 },
                 {
                     "title": "طلای دست دوم",
-                    "price": "178,015,830",
-                    "key": "gold_mini_size"
+                    "price": "178,116,050",
+                    "key": "gold_mini_size",
+                    "status": "low",
+                    "low_price": "176,307,540",
+                    "high_price": "180,134,120"
                 }
             ]
-        },
-        {}
+        }
     ]
     ```
     """
