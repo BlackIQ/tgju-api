@@ -1,0 +1,9 @@
+[project]
+name = "tgju-api"
+version = "1.0.0"
+description = "TGJU scrapper"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.140.0",
+]
