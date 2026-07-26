@@ -7,7 +7,7 @@ from routers import price
 # FastAPI instance
 app = FastAPI(
     title="TGJU Scrapper API",
-    version="1.0.1",
+    version="1.1.0",
     summary="An API to scrap TGJU website data and share it with you using FastAPI.",
     contact={
         "name": "Amirhossein Mohammadi",
