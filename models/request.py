@@ -28,16 +28,7 @@ class Request(BaseModel):
     endpoint: Mapped[str] = mapped_column(
         nullable=False,
     )
-    method: Mapped[str] = mapped_column(
-        nullable=False,
-    )
-    status_code: Mapped[int] = mapped_column(
-        nullable=False,
-    )
-    response_time_ms: Mapped[float] = mapped_column(
-        nullable=False,
-    )
-    ip_address: Mapped[str] = mapped_column(
+    ip_address: Mapped[str | None] = mapped_column(
         nullable=False,
     )
     user_agent: Mapped[str | None] = mapped_column(
