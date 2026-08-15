@@ -1,11 +1,11 @@
-# FastAPI
-from fastapi import FastAPI
+# Libs
+from fastapi import FastAPI  # FastAPI
 
-# Routers
-from routers import price
+# Application
+from routers import price  # Routers
 
 # FastAPI instance
-app = FastAPI(
+app: FastAPI = FastAPI(
     title="TGJU Scrapper API",
     version="1.1.0",
     summary="An API to scrap TGJU website data and share it with you using FastAPI.",
