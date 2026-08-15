@@ -15,7 +15,7 @@ app = FastAPI(
         "email": "hi@amirhossein.info",
     },
     openapi_tags=[
-        {"name": "Price", "description": "TGJU scrapper endpoints for Gold & Currency"}
+        {"name": "Price", "description": "TGJU scrapper endpoints for Gold & Currency"},
     ],
 )
 
