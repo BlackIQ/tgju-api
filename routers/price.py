@@ -1,11 +1,13 @@
 # Libs
-from fastapi import APIRouter, Depends  # FastAPI
+from fastapi import APIRouter, Request, Depends  # FastAPI
+from sqlalchemy.orm import Session  # SQLAlchemy ORM
+import uuid  # UUID
 
 # Application
 from dependencies.database import get_db  # Dependency: Database
 from schemas.price import CurrencyCategory, GoldCategory  # Schema: Price
 from scrap.tgju import get_currency_prices, get_gold_prices  # Scrapper
-from models.request import Request  # Model: Request
+from models.request import Request as Log  # Model: Request
 
 # Router
 router = APIRouter(
@@ -15,7 +17,7 @@ router = APIRouter(
 
 
 @router.get("/currency", response_model=list[CurrencyCategory])
-async def currency():
+async def currency(request: Request, db: Session = Depends(get_db)):
     """
     ### Example:
 
@@ -67,11 +69,27 @@ async def currency():
     ```
     """
 
-    return await get_currency_prices()
+    client_id = request.headers.get("X-Request-ID")
+    user_agent = request.headers.get("User-Agent")
+
+    log = Log(
+        request_id=uuid.uuid4(),
+        endpoint=request.url.path,
+        ip_address=request.client.host,
+        client_id=client_id,
+        user_agent=user_agent,
+    )
+
+    db.add(log)
+    db.commit()
+
+    response = await get_currency_prices()
+
+    return response
 
 
 @router.get("/gold", response_model=list[GoldCategory])
-async def gold():
+async def gold(request: Request, db: Session = Depends(get_db)):
     """
     ### Example:
 
@@ -120,4 +138,20 @@ async def gold():
     ```
     """
 
-    return await get_gold_prices()
+    client_id = request.headers.get("X-Request-ID")
+    user_agent = request.headers.get("User-Agent")
+
+    log = Log(
+        request_id=uuid.uuid4(),
+        endpoint=request.url.path,
+        ip_address=request.client.host,
+        client_id=client_id,
+        user_agent=user_agent,
+    )
+
+    db.add(log)
+    db.commit()
+
+    response = await get_gold_prices()
+
+    return response
