@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+# Application
+from base.schema import BaseModel  # Base Schema
 
 
 # Base of PriceItem
