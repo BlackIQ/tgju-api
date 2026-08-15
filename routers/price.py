@@ -1,11 +1,11 @@
-# FastAPI
-from fastapi import APIRouter
+# Libs
+from fastapi import APIRouter, Depends  # FastAPI
 
-# Schemas
-from schemas.price import CurrencyCategory, GoldCategory
-
-# Scrapper
-from scrap.tgju import get_currency_prices, get_gold_prices
+# Application
+from dependencies.database import get_db  # Dependency: Database
+from schemas.price import CurrencyCategory, GoldCategory  # Schema: Price
+from scrap.tgju import get_currency_prices, get_gold_prices  # Scrapper
+from models.request import Request  # Model: Request
 
 # Router
 router = APIRouter(
