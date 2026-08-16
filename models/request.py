@@ -25,6 +25,10 @@ class Request(BaseModel):
         unique=True,
         index=True,
     )
+    method: Mapped[str] = mapped_column(
+        nullable=False,
+        server_default="GET",
+    )
     endpoint: Mapped[str] = mapped_column(
         nullable=False,
     )
@@ -35,5 +39,14 @@ class Request(BaseModel):
         nullable=True,
     )
     client_id: Mapped[str | None] = mapped_column(
+        nullable=True,
+    )
+    status_code: Mapped[int | None] = mapped_column(
+        nullable=True,
+    )
+    response_time: Mapped[float | None] = mapped_column(
+        nullable=True,
+    )
+    error: Mapped[str | None] = mapped_column(
         nullable=True,
     )
