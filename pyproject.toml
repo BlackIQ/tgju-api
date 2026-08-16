@@ -13,3 +13,6 @@ dependencies = [
     "pydantic-settings>=2.14.2",
     "sqlalchemy>=2.0.52",
 ]
+
+[tool.fastapi]
+entrypoint = "main:app"
