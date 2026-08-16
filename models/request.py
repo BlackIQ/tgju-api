@@ -27,7 +27,6 @@ class Request(BaseModel):
     )
     method: Mapped[str] = mapped_column(
         nullable=False,
-        server_default="GET",
     )
     endpoint: Mapped[str] = mapped_column(
         nullable=False,
