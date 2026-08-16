@@ -3,6 +3,7 @@ from fastapi import FastAPI  # FastAPI
 from fastapi.middleware.cors import CORSMiddleware  # FastAPI CORS
 
 # Application
+from middlewares.request import RequestMiddleware  # Middleware: Request
 from routers import price  # Routers
 
 # FastAPI instance
@@ -20,7 +21,7 @@ app: FastAPI = FastAPI(
     ],
 )
 
-# CORS
+# CORS Middleware
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -34,6 +35,9 @@ app.add_middleware(
     allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Request Log Middleware
+app.add_middleware(RequestMiddleware)
 
 
 # Routers
