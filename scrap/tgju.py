@@ -1,11 +1,8 @@
-# Libs
-import httpx  # HTTPX
-from bs4 import BeautifulSoup  # Beautiful soap
+import httpx
+from bs4 import BeautifulSoup
 
-# Schemas
-from schemas.price import PriceItem, GoldCategory  # Schemas: Price
+from schemas.price import PriceItem, PriceCategory
 
-# Sample header
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 "
@@ -16,8 +13,11 @@ HEADERS = {
     )
 }
 
+CURRENCY_URL = "https://www.tgju.org/currency"
+GOLD_URL = "https://www.tgju.org/gold-chart"
+OIL_URL = "https://www.tgju.org/energy"
 
-# Get soup function
+
 async def _get_soup(url: str) -> BeautifulSoup:
     async with httpx.AsyncClient(
         headers=HEADERS,
@@ -57,68 +57,75 @@ def get_price_range(row) -> tuple[str | None, str | None]:
     return low_price, high_price
 
 
-# Currency scrapper
+def parse_price_row(row) -> PriceItem:
+    title = row.find("th").get_text(strip=True)
+    price = row.find("td", class_="nf").get_text(strip=True)
+
+    low_price, high_price = get_price_range(row)
+
+    link = row.select_one("td.chart-td a")
+
+    if not link or not link.get("href"):
+        raise ValueError(f"Price row has no profile link: {title}")
+
+    key = link["href"].rstrip("/").split("/")[-1]
+
+    return PriceItem(
+        title=title,
+        price=price,
+        key=key,
+        status=get_price_status(row),
+        low_price=low_price,
+        high_price=high_price,
+    )
+
+
+def get_price_rows(table):
+    return table.select("tbody > tr:not(.market-cat-title-tr)")
+
+
 async def get_currency_prices() -> list[PriceItem]:
-    soup = await _get_soup("https://www.tgju.org/currency")
+    soup = await _get_soup(CURRENCY_URL)
 
-    output: list[PriceItem] = []
-
-    for table in soup.select("table.market-table"):
-        for row in table.select("tbody > tr"):
-            title = row.find("th").get_text(strip=True)
-
-            price = row.find("td", class_="nf").get_text(strip=True)
-            low_price, high_price = get_price_range(row)
-
-            href = row.find_all("td")[-1].a["href"]
-
-            output.append(
-                PriceItem(
-                    title=title,
-                    price=price,
-                    key=href.split("/")[-1],
-                    status=get_price_status(row),
-                    low_price=low_price,
-                    high_price=high_price,
-                )
-            )
-
-    return output
+    return [
+        parse_price_row(row)
+        for table in soup.select("table.market-table")
+        for row in get_price_rows(table)
+    ]
 
 
-# Gold scrapper
-async def get_gold_prices() -> list[GoldCategory]:
-    soup = await _get_soup("https://www.tgju.org/gold-chart")
+async def get_gold_prices() -> list[PriceCategory]:
+    soup = await _get_soup(GOLD_URL)
 
-    categories: list[GoldCategory] = []
+    categories: list[PriceCategory] = []
 
     for table in soup.select("table.market-table"):
-
         category_title = table.find("th").get_text(strip=True)
 
-        prices: list[PriceItem] = []
-
-        for row in table.select("tbody > tr"):
-            title = row.find("th").get_text(strip=True)
-
-            price = row.find("td", class_="nf").get_text(strip=True)
-            low_price, high_price = get_price_range(row)
-
-            href = row.find_all("td")[-1].a["href"]
-
-            prices.append(
-                PriceItem(
-                    title=title,
-                    price=price,
-                    key=href.split("/")[-1],
-                    status=get_price_status(row),
-                    low_price=low_price,
-                    high_price=high_price,
-                )
-            )
+        prices = [parse_price_row(row) for row in get_price_rows(table)]
 
         categories.append(
-            GoldCategory(
+            PriceCategory(
+                title=category_title,
+                prices=prices,
+            )
+        )
+
+    return categories
+
+
+async def get_oil_prices() -> list[PriceCategory]:
+    soup = await _get_soup(OIL_URL)
+
+    categories: list[PriceCategory] = []
+
+    for table in soup.select("table.market-table"):
+        category_title = table.find("th").get_text(strip=True)
+
+        prices = [parse_price_row(row) for row in get_price_rows(table)]
+
+        categories.append(
+            PriceCategory(
                 title=category_title,
                 prices=prices,
             )
