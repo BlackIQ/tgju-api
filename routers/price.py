@@ -4,7 +4,7 @@ import json  # JSON
 from fastapi import APIRouter, HTTPException  # FastAPI
 
 # Application
-from core.redis import redis  # Core: Redis
+from core.redis_async import redis  # Core: Redis
 from schemas.price import PriceItem, PriceCategory  # Schema: Price
 
 # Router
