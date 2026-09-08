@@ -7,6 +7,12 @@ class Settings(BaseSettings):
     # Database
     postgresql_url: str = ""
 
+    # Redis
+    redis_url: str = ""
+
+    # RabbitMQ
+    rabbitmq_url: str = ""
+
     model_config = SettingsConfigDict(env_file=".env")
 
 
