@@ -1,11 +1,9 @@
-# HTTPX
-import httpx
-
-# Beautiful soap v4
-from bs4 import BeautifulSoup
+# Libs
+import httpx  # HTTPX
+from bs4 import BeautifulSoup  # Beautiful soap
 
 # Schemas
-from schemas.price import PriceItem, GoldCategory
+from schemas.price import PriceItem, GoldCategory  # Schemas: Price
 
 # Sample header
 HEADERS = {

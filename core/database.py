@@ -3,7 +3,7 @@ from sqlalchemy import create_engine  # SQLAlchemy
 from sqlalchemy.orm import sessionmaker  # SQLAlchemy ORM
 
 # Application
-from core.settings import settings  # Settings
+from core.settings import settings  # Core: Settings
 
 # Create Engine
 engine = create_engine(settings.postgresql_url, pool_pre_ping=True)

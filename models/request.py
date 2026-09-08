@@ -1,10 +1,11 @@
 # Libs
-from sqlalchemy import Uuid  # SQLAlchemy
-from sqlalchemy.orm import Mapped, mapped_column  # SQLAlchemy ORM
 import uuid  # UUID
 
+from sqlalchemy import Uuid  # SQLAlchemy
+from sqlalchemy.orm import Mapped, mapped_column  # SQLAlchemy ORM
+
 # Application
-from base.model import BaseModel  # Base Model
+from base.model import BaseModel  # Base: Model
 
 
 # Request

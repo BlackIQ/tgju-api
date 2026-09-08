@@ -1,7 +1,8 @@
 # Libs
+from datetime import datetime  # Datetime
+
 from sqlalchemy import DateTime, func  # SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column  # SQLAlchemy ORM
-from datetime import datetime  # Datetime
 
 
 # Base Class: Model
