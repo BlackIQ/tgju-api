@@ -2,7 +2,7 @@
 import json  # JSON
 
 # Application
-from core.redis import redis  # Core: Redis
+from core.redis_sync import redis  # Core: Redis
 from scrap.tgju import (
     get_currency_prices,
     get_gold_prices,
@@ -13,9 +13,12 @@ from scrap.tgju import (
 async def currency():
     data = await get_currency_prices()
 
-    prices = json.dumps([item.model_dump() for item in data], ensure_ascii=False)
+    prices = json.dumps(
+        [item.model_dump() for item in data],
+        ensure_ascii=False,
+    )
 
-    await redis.set("tgju:currency", prices)
+    redis.set("tgju:currency", prices)
 
 
 async def gold():
@@ -26,7 +29,7 @@ async def gold():
         ensure_ascii=False,
     )
 
-    await redis.set("tgju:gold", prices)
+    redis.set("tgju:gold", prices)
 
 
 async def oil():
@@ -37,4 +40,4 @@ async def oil():
         ensure_ascii=False,
     )
 
-    await redis.set("tgju:oil", prices)
+    redis.set("tgju:oil", prices)
