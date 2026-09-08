@@ -1,9 +1,11 @@
 # Libs
-from fastapi import APIRouter  # FastAPI
+import json  # JSON
+
+from fastapi import APIRouter, HTTPException  # FastAPI
 
 # Application
+from core.redis import redis  # Core: Redis
 from schemas.price import PriceItem, PriceCategory  # Schema: Price
-from scrap.tgju import get_currency_prices, get_gold_prices, get_oil_prices  # Scrapper
 
 # Router
 router = APIRouter(
@@ -65,7 +67,17 @@ async def currency():
     ```
     """
 
-    response = await get_currency_prices()
+    data = await redis.get("tgju:currency")
+
+    if data == None:
+        raise HTTPException(
+            status_code=503,
+            detail="Currency price cache is unavailable.",
+        )
+
+    prices = json.loads(data)
+
+    response = [PriceItem.model_validate(item) for item in prices]
 
     return response
 
@@ -120,7 +132,17 @@ async def gold():
     ```
     """
 
-    response = await get_gold_prices()
+    data = await redis.get("tgju:gold")
+
+    if data == None:
+        raise HTTPException(
+            status_code=503,
+            detail="Gold price cache is unavailable.",
+        )
+
+    prices = json.loads(data)
+
+    response = [PriceCategory.model_validate(item) for item in prices]
 
     return response
 
@@ -204,6 +226,16 @@ async def oil():
     ```
     """
 
-    response = await get_oil_prices()
+    data = await redis.get("tgju:oil")
+
+    if data == None:
+        raise HTTPException(
+            status_code=503,
+            detail="Oil price cache is unavailable.",
+        )
+
+    prices = json.loads(data)
+
+    response = [PriceCategory.model_validate(item) for item in prices]
 
     return response
