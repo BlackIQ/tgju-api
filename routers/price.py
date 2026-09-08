@@ -2,8 +2,8 @@
 from fastapi import APIRouter  # FastAPI
 
 # Application
-from schemas.price import CurrencyCategory, GoldCategory  # Schema: Price
-from scrap.tgju import get_currency_prices, get_gold_prices  # Scrapper
+from schemas.price import PriceItem, PriceCategory  # Schema: Price
+from scrap.tgju import get_currency_prices, get_gold_prices, get_oil_prices  # Scrapper
 
 # Router
 router = APIRouter(
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get("/currency", response_model=list[CurrencyCategory])
+@router.get("/currency", response_model=list[PriceItem])
 async def currency():
     """
     ### Example:
@@ -70,7 +70,7 @@ async def currency():
     return response
 
 
-@router.get("/gold", response_model=list[GoldCategory])
+@router.get("/gold", response_model=list[PriceCategory])
 async def gold():
     """
     ### Example:
@@ -121,5 +121,89 @@ async def gold():
     """
 
     response = await get_gold_prices()
+
+    return response
+
+
+@router.get("/oil", response_model=list[PriceCategory])
+async def oil():
+    """
+    ### Example:
+
+    Here I put an example for you.
+
+    ```json
+    [
+      {
+        "title": "نفت و انرژی",
+        "prices": [
+          {
+            "title": "نفت برنت",
+            "price": "98.341",
+            "key": "energy-brent-oil",
+            "status": "high",
+            "low_price": "96.803",
+            "high_price": "99.162"
+          },
+          {
+            "title": "نفت خام (WTI)",
+            "price": "94.349",
+            "key": "energy-crude-oil",
+            "status": "high",
+            "low_price": "92.206",
+            "high_price": "94.585"
+          }
+        ]
+      },
+      {
+        "title": "نفت آمریکا",
+        "prices": []
+      },
+      {
+        "title": "نفت ایران",
+        "prices": []
+      },
+      {
+        "title": "انرژی",
+        "prices": [
+          {
+            "title": "برق بریتانیا",
+            "price": "141.78",
+            "key": "commodities-gbrelepri-com",
+            "status": "high",
+            "low_price": "141.78",
+            "high_price": "141.78"
+          },
+          {
+            "title": "انرژی بادی",
+            "price": "23.67",
+            "key": "انرژی-باد",
+            "status": null,
+            "low_price": "23.64",
+            "high_price": "23.78"
+          },
+          {
+            "title": "انرژی هسته ای",
+            "price": "46.32",
+            "key": "nuclear_energy",
+            "status": "high",
+            "low_price": "46.32",
+            "high_price": "46.68"
+          },
+          {
+            "title": "انرژی خورشیدی",
+            "price": "48.04",
+            "key": "solar_energy",
+            "status": "high",
+            "low_price": "48.04",
+            "high_price": "48.04"
+          }
+        ]
+      }
+    ]
+    ```
+    """
+
+    response = await get_oil_prices()
 
     return response
