@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   api:
     build:
@@ -7,10 +5,41 @@ services:
       dockerfile: Dockerfile
     container_name: tgju-api
     restart: always
-    ports:
-      - "8877:8000"
+    command: uv run fastapi run
     networks:
       - application-network
+    environment:
+      POSTGRESQL_URL: ${POSTGRESQL_URL}
+      REDIS_URL: ${REDIS_URL}
+      RABBITMQ_URL: ${RABBITMQ_URL}
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tgju-worker
+    restart: always
+    command: uv run celery -A core.celery:celery worker --loglevel=INFO
+    networks:
+      - application-network
+    environment:
+      POSTGRESQL_URL: ${POSTGRESQL_URL}
+      REDIS_URL: ${REDIS_URL}
+      RABBITMQ_URL: ${RABBITMQ_URL}
+
+  beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tgju-beat
+    restart: always
+    command: uv run celery -A core.celery:celery beat --loglevel=INFO
+    networks:
+      - application-network
+    environment:
+      POSTGRESQL_URL: ${POSTGRESQL_URL}
+      REDIS_URL: ${REDIS_URL}
+      RABBITMQ_URL: ${RABBITMQ_URL}
 
 networks:
   application-network:
