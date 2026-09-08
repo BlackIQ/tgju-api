@@ -1,8 +1,6 @@
-# Application
-from base.schema import BaseModel  # Base: Schema
+from pydantic import BaseModel
 
 
-# Base of PriceItem
 class PriceItem(BaseModel):
     title: str
     price: str
@@ -12,12 +10,6 @@ class PriceItem(BaseModel):
     high_price: str | None = None
 
 
-# Gold Schema
-class CurrencyCategory(PriceItem):
-    pass
-
-
-# Gold Schema
-class GoldCategory(BaseModel):
+class PriceCategory(BaseModel):
     title: str
     prices: list[PriceItem]
