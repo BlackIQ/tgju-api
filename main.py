@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware  # FastAPI CORS
 
 # Application
 from middlewares.request import RequestMiddleware  # Middleware: Request
-from routers import price  # Routers
+from routers import price  # Routers: Price
 
 # FastAPI instance
 app: FastAPI = FastAPI(
