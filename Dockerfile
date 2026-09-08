@@ -1,15 +1,15 @@
 # Use a minimal Python base image
-FROM python:3.11-alpine
+FROM python:3.14-alpine
+
+# UV
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY pyproject.toml uv.lock ./
+RUN uv sync --locked
 
-# Copy the CLI source code into the container
+# Copy the code into the container
 COPY . .
-
-# Set the entrypoint to run the CLI
-ENTRYPOINT ["python3", "wsgi.py"]
