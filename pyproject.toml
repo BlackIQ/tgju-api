@@ -1,6 +1,6 @@
 [project]
 name = "tgju-api"
-version = "1.4.2"
+version = "2.0.0"
 description = "TGJU scrapper"
 readme = "README.md"
 requires-python = ">=3.13"
