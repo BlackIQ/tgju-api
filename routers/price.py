@@ -1,11 +1,16 @@
 # Libs
-import json  # JSON
+# import json  # JSON
 
-from fastapi import APIRouter, HTTPException  # FastAPI
+from fastapi import APIRouter  # , HTTPException  # FastAPI
 
 # Application
-from core.redis_async import redis  # Core: Redis
+# from core.redis_async import redis  # Core: Redis
 from schemas.price import PriceItem, PriceCategory  # Schema: Price
+from scrap.tgju import (
+    get_currency_prices,
+    get_gold_prices,
+    get_oil_prices,
+)  # Scrap: TGJU
 
 # Router
 router = APIRouter(
@@ -67,19 +72,21 @@ async def currency():
     ```
     """
 
-    data = await redis.get("tgju:currency")
+    # data = await redis.get("tgju:currency")
 
-    if data == None:
-        raise HTTPException(
-            status_code=503,
-            detail="Currency price cache is unavailable.",
-        )
+    # if data == None:
+    #     raise HTTPException(
+    #         status_code=503,
+    #         detail="Currency price cache is unavailable.",
+    #     )
 
-    prices = json.loads(data)
+    # prices = json.loads(data)
 
-    response = [PriceItem.model_validate(item) for item in prices]
+    # response = [PriceItem.model_validate(item) for item in prices]
 
-    return response
+    # return response
+
+    return await get_currency_prices()
 
 
 @router.get("/gold", response_model=list[PriceCategory])
@@ -132,19 +139,21 @@ async def gold():
     ```
     """
 
-    data = await redis.get("tgju:gold")
+    # data = await redis.get("tgju:gold")
 
-    if data == None:
-        raise HTTPException(
-            status_code=503,
-            detail="Gold price cache is unavailable.",
-        )
+    # if data == None:
+    #     raise HTTPException(
+    #         status_code=503,
+    #         detail="Gold price cache is unavailable.",
+    #     )
 
-    prices = json.loads(data)
+    # prices = json.loads(data)
 
-    response = [PriceCategory.model_validate(item) for item in prices]
+    # response = [PriceCategory.model_validate(item) for item in prices]
 
-    return response
+    # return response
+
+    return await get_gold_prices()
 
 
 @router.get("/oil", response_model=list[PriceCategory])
@@ -226,16 +235,18 @@ async def oil():
     ```
     """
 
-    data = await redis.get("tgju:oil")
+    # data = await redis.get("tgju:oil")
 
-    if data == None:
-        raise HTTPException(
-            status_code=503,
-            detail="Oil price cache is unavailable.",
-        )
+    # if data == None:
+    #     raise HTTPException(
+    #         status_code=503,
+    #         detail="Oil price cache is unavailable.",
+    #     )
 
-    prices = json.loads(data)
+    # prices = json.loads(data)
 
-    response = [PriceCategory.model_validate(item) for item in prices]
+    # response = [PriceCategory.model_validate(item) for item in prices]
 
-    return response
+    # return response
+
+    return await get_oil_prices()
